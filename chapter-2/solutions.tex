@@ -1,0 +1,354 @@
+\documentclass{amsart}
+\title{A \LaTeX\ Starter File}
+\author{Edderic Ugaddan}
+\address{Box 666\\University of Washington\\Seattle\ \ WA}
+\email{edderic@gmail.com}
+\date{Nov. 05, 2016}
+
+% Check if we are compiling under latex or pdflatex, and include the
+% appropriate graphics package
+\ifx\pdftexversion\undefined
+  \usepackage[dvips]{graphicx}
+\else
+  \usepackage[pdftex]{graphicx}
+\fi
+
+% Define the theorem environments
+\newtheorem{theorem}{Theorem}[section] % numbered like the section
+\newtheorem{lemma}[theorem]{Lemma} % numbered like the theorems
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition} % styled differently... not italicized
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+% Let \sign show roman-style characters in math mode
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+
+%\raggedbottom % Makes the bottom margin more flexible (helpful for pictures)
+
+\begin{document}
+
+\begin{abstract}
+ Put an abstract here when you're ready.
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Introduction.  We might cite bibliographic entry \cite{SJE} here.
+
+\section{Section One}
+
+Section One.  This is the section that has an in-text equation
+\(e=mc^2\) and a centered equation or two:
+
+\begin{equation}
+  P(X_{1} = 2 \text{ and } X_{2} = 1) = P(X_{2} = 1 \mid X_{1} = 2) P(X_{1} = 2)
+\end{equation}
+
+Formally speaking:
+
+\begin{equation}
+\begin{split}
+  P(X_{1} = 2) &= \sum_{i=0}^{2}{P(X_{1} = 2 \mid X_{0} = i) P(X_{0} = i)} \\
+  &= P(X_{1} = 2 \mid X_{0} = 0) P(X_{0} = 0) \\
+  &\quad +  P(X_{1} = 2 \mid X_{0} = 1) P(X_{0} = 1) \\
+  &\quad + P(X_{1} = 2 \mid X_{0} = 2) P(X_{0} = 2)
+\end{split}
+\end{equation}
+
+
+However, since it was given that both nodes were active in the beginning (i.e.
+$P(X_{0} = 2) = 1$), we know that $P(X_{0} = 0) = P(X_{0} = 1) = 0$. Thus, the
+statement above simplifies to:
+
+\begin{equation}
+\begin{aligned}
+  P(X_{1} = 2) &= P(X_{1} = 2 \mid X_{0} = 2)
+\end{aligned}
+\end{equation}
+
+$P(X_{1} = 2 \mid X_{0} = 2)$ could only happen two ways: either both
+active nodes send information (and hence create a collision), or both active
+nodes don't send anything at all.
+
+\begin{equation}
+  \begin{aligned}
+    P(X_{1} = 2) &= P(X_{1} = 2 \mid X_{0} = 2) \\
+    &= P(C_{1} = 1 \text{ and } C_{2} = 1 \text{ or } C_{1} = 0 \text{ and } C_{2} = 0) \\
+                 &= P(C_{1} = 1 \text{ and } C_{2} = 1) + P(C_{1} = 0 \text{ and } C_{2} = 0) \\
+    &= p^2 + (1-p)^2 \\
+    &= (0.4)^2 + (1-0.4)^2 \\
+    &= 0.16 + 0.36 \\
+    &= 0.52 \\
+  \end{aligned}
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+    P(X_{2} = 1 \mid X_{1} = 2) &= P(C_{1} = 1 \text{ and } C_{2} = 0 \text{ or } C_{1} = 0 \text{ and } C_{2} = 1) \\
+    &= P(C_{1} = 1 \text{ and } C_{2} = 0) + P(C_{1} = 0 \text{ and } C_{2} =  1) \\
+    &= p(1-p) + p(1-p) \\
+    &= 2p(1-p) \\
+    &= 2(0.4)(1-(0.4)) \\
+    &= 0.48\\
+  \end{aligned}
+\end{equation}
+
+Therefore:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_{1} = 2 \text{ and } X_{2} = 1) &= P(X_{2} = 1 \mid X_{1} = 2) P(X_{1} = 2) \\
+    &= 0.48 \times 0.52 \\
+    &= 0.2496
+  \end{aligned}
+\end{equation}
+
+
+\begin{equation}
+  \begin{aligned}
+    P(X_2 = 0) &= \sum_{i=0}^{2} P(X_2 = 0 \text{ and } X_1 = i) \\
+    &= \sum_{i=0}^{2} P(X_2 = 0 \mid X_1 = i)P(X_1 = i) \\
+    &= P(X_2 = 0 \mid X_1 = 0)P(X_1 = 0) \\
+    &\quad + P(X_2 = 0 \mid X_1 = 1)P(X_1 = 1) \\
+    &\quad + P(X_2 = 0 \mid X_1 = 2)P(X_1 = 2) \\
+  \end{aligned}
+\end{equation}
+
+Let's start with $P(X_1 = 0)$. We know that it is equivalent to:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_1 = 0) &= P(X_1 = 0 \text{ and } X_0 = 2) \\
+    &= P(X_1 = 0 \mid X_0 = 2)P(X_0 = 2) \\
+    &= P(X_1 = 0 \mid X_0 = 2) \\
+  \end{aligned}
+\end{equation}
+
+It is impossible for two active nodes to both become inactive for the next
+epoch, so $P(X_1 = 0) = P(X_1 = 0 \mid X_0 = 2) = 0$.
+
+Next we look at $P(X_1 = 1)$:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_1 = 1) &= P(X_1 = 1 \text{ and } X_0 = 2) \\
+    &= P(X_1 = 1 \mid X_0 = 2)P(X_0 = 2) \\
+    &= P(X_1 = 1 \mid X_0 = 2) \\
+  \end{aligned}
+\end{equation}
+
+This could only happen two ways: either the first node sends and the second
+node does not, or the second node sends and the first node does not. For active
+nodes, let $S_i=k, i \in \{0,1\}$ and $k \in \{0,1\}$ where, for node $i$,
+$S_i=0$ is the event of not sending and $S_i=1$ is the event of sending:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_1 = 1) &= P(X_1 = 1 \mid X_0 = 2) \\
+    &= P(S_1 = 1 \text{ and } S_2 = 0 \text{ or } S_1 = 0 \text{ and } S_2 = 1) \\
+    &= P(S_1 = 1 \text{ and } S_2 = 0) + P(S_1 = 0 \text{ and } S_2 = 1) \\
+    &= p(1-p) + p(1-p) \\
+    &= 2p(1-p) \\
+    &= 2(0.4)(1-0.4) \\
+    &= 0.48
+  \end{aligned}
+\end{equation}
+
+Now let's look at $P(X_2=0 \mid X_1=1)$. The only way this could happen is when
+the active node sends while the other node stays inactive:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_2=0 \mid X_1=1) &= p(1-q) \\
+    &= (0.4)(1-(0.8)) \\
+    &= 0.08
+  \end{aligned}
+\end{equation}
+
+Now we consider $P(X_2=0 \mid X_1=2)$. Again it is impossible for two active
+nodes to become inactive for the next epoch, so $P(X_2=0 \mid X_1=2) = 0$.
+
+Therefore, $P(X_2=0)$ simplifies to the following:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_2=0) &= P(X_2 = 0 \mid X_1 = 0)P(X_1 = 0) \\
+    &\quad + P(X_2 = 0 \mid X_1 = 1)P(X_1 = 1) \\
+    &\quad + P(X_2 = 0 \mid X_1 = 2)P(X_1 = 2) \\
+    &= P(X_2 = 0 \mid X_1 = 0) \times 0 \\
+    &\quad + 0.08 \times 0.48 \\
+    &\quad + 0 \times P(X_1 = 2) \\
+    &= 0.0384
+  \end{aligned}
+\end{equation}
+
+Find $P(X_{1} = 1 \mid X_{2} = 1)$
+
+
+\begin{equation}
+  \begin{aligned}
+    P(X_{1} = 1 \mid X_{2} = 1) &= \frac{P(X_1=1 \text{ and } X_2=1)}{P(X_2 = 1)} \\
+    &= \frac{P(X_2=1 \mid X_1=1)P(X_1=1) }{P(X_2 = 1)} \\
+    &= \frac{P(X_2=1 \mid X_1=1)P(X_1=1) }{\sum_{i=0}^{2}P(X_2 = 1, X_1=i)} \\
+    &= \frac{P(X_2=1 \mid X_1=1)P(X_1=1) }{\sum_{i=0}^{2}P(X_2 = 1 \mid X_1=i)P(X_1=i)} \\
+  \end{aligned}
+\end{equation}
+
+The denominator expands to the following:
+
+\begin{equation}
+  \begin{aligned}
+    \sum_{i=0}^{2}P(X_2 = 1 \mid X_1=i)P(X_1=i) &= P(X_2 = 1 \mid X_1=0)P(X_1=0) \\
+    &\quad + P(X_2 = 1 \mid X_1=1)P(X_1=1) \\
+    &\quad + P(X_2 = 1 \mid X_1=2)P(X_1=2) \\
+  \end{aligned}
+\end{equation}
+
+We've already established that $P(X_1=0) = 0$, $P(X_1=1)=0.48$, $P(X_1=2) =
+0.52$. Since, $P(X_1=0) = 0$, we know that $P(X_2=1 \mid X_1=0)$ cannot
+happen. Thus, what we need to calculate are the following: $P(X_2=1
+\mid X_1=1)$ and $P(X_2=1 \mid X_1=2)$.
+
+Let's start with $P(X_2=1 \mid X_1=1)$. Three possibilities:
+
+\begin{itemize}
+ \item Active node successfully sends; inactive node becomes active and does not send
+ \item Active node does not attempt to send; inactive node does not become active
+ \item Active node does not attempt to send; inactive node becomes active and successfully sends
+\end{itemize}
+
+\begin{equation}
+  \begin{aligned}
+    P(X_2=1 \mid X_1=1) &= (1-p)qp + (1-p)(1-q) + pq(1-p) \\
+    &= (1-0.4)(0.8)(0.4) + (1-0.4)(1-0.8) + (0.4(0.8(1-0.4))) \\
+    &= 0.192 + 0.12 + 0.192 \\
+    &= 0.504
+  \end{aligned}
+\end{equation}
+
+Next we look at $P(X_2=1 \mid X_1=2)$. The first active node sends a message
+and becomes inactive while the second active node refrains from sending, or the
+second active node sends a message and becomes inactive while the first active
+node refrains.
+
+\begin{equation}
+  \begin{aligned}
+    P(X_2=1 \mid X_1=2) &= P(A_1=1 \text{ and } A_2=0 \text{ or } A_1=0 \text{ and } A_2=1) \\
+    &= P(A_1=1 \text{ and } A_2=0) + P(A_1=0 \text{ and } A_2=1) \\
+    &= p(1-p) + (1-p)p \\
+    &= 2p(1-p) \\
+    &= 2(0.4)(1-0.4) \\
+    &= 0.48
+  \end{aligned}
+\end{equation}
+
+Therefore, $P(X_1=1 \mid X_2=1)$ reduces to the following:
+
+\begin{equation}
+  \begin{aligned}
+    P(X_1=1 \mid X_2=1) &= \frac{P(X_2=1 \mid X_1=1)P(X_1=1) }{\sum_{i=0}^{2}P(X_2 = 1 \mid X_1=i)P(X_1=i)} \\
+    &= \frac{0.504 \times 0.48}{0 \times 0 + 0.504 \times 0.48 + 0.48 \times 0.52}\\
+    &= \frac{0.24192}{0 + 0.24192 + 0.2496} \\
+    &= 0.4921875 \\
+\end{equation}
+
+\begin{equation}
+ \int_{-\infty}^\infty e^{-t^2}dt = \sqrt{\pi}
+\end{equation}
+
+\begin{equation*} % The star suppresses the equation numbering:
+ \sum_1^\infty \frac{1}{n^2} = \frac{\pi^2}{6}
+\end{equation*}
+
+And another equation using a matrix.
+
+\begin{equation}
+ \textrm{Matrix to follow\ldots }
+ \Lambda =
+ \begin{bmatrix}
+   3        &  \nabla \\
+   \partial &  b
+ \end{bmatrix}
+\end{equation}
+
+Greek letters are easy to use:
+
+\begin{equation}
+ \alpha \times \delta \rightarrow \frac{\mathbb R}{\phi}
+\end{equation}
+
+\subsection{Section One Point One}
+
+Section One Point One.  This is the section that has the figure.  It
+might appear on the next page.  One can then reference it as Figure
+\ref{a figure} on page \pageref{a figure}.
+
+\begin{figure}
+\begin{center}
+% Leave off the file extension so that
+% the package can choose from .eps and .pdf
+%\includegraphics[width=3in]{circle}
+% Or if you want to waste your time, make a LaTeX figure:
+\begin{picture}(50,50)
+\put(25,25){\circle{50}}
+\end{picture}
+\end{center}
+\caption{This is a big circle.  \label{a figure}}
+\end{figure}
+
+\subsection{Section One Point Two}
+
+Section One Point Two.  This is the section that has a bulleted list.
+You can number the list using \texttt{enumerate} instead of
+\texttt{itemize}.
+
+\begin{itemize}
+ \item Item 1
+ \item Item 2
+\end{itemize}
+
+You can also look up \texttt{description} if you're interested.
+
+\section{I forget which number}
+
+This is the section which has a code sample:
+
+\begin{verbatim}
+     ((lambda (x)
+       (list x (list (quote quote) x)))
+      (quote
+         (lambda (x)
+           (list x (list (quote quote) x)))))
+\end{verbatim}
+
+
+\section{Conclusion}
+
+Conclusion goes here.
+
+\appendix
+
+\section{Stuff That Doesn't Go Up There Goes Here Instead}
+
+This item goes without notice 19 years out of 20, but occaisionally
+must be surgically removed.
+
+
+\begin{thebibliography}{99}
+
+\bibitem{SJE}Sam, Jeff, Erine.  ``A \LaTeX\ Starter File.''  2003.
+
+\bibitem{CM}Burtis, B., and James A. Morrow.  ``Inverse Problems
+for Electrical Networks.''  Series on applied mathematics -- Vol.\ 13.
+World Scientific, \copyright 2000.
+
+\end{thebibliography}
+
+\end{document}
+
